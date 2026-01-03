@@ -27,15 +27,8 @@ export function CodeBlock({
 
   return (
     <div className="relative group max-w-full">
-      {/* Header bar with language and copy button */}
-      <div className="flex items-center justify-between px-3 py-2 bg-muted/30 rounded-t-lg">
-        {language ? (
-          <span className="text-xs font-mono text-muted-foreground">
-            {language}
-          </span>
-        ) : (
-          <span></span>
-        )}
+      {/* Header bar copy button */}
+      <div className="flex items-center justify-end px-3 py-2 bg-muted/30 rounded-t-lg">
         <Button
           variant="ghost"
           size="sm"
