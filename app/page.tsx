@@ -34,9 +34,8 @@ export default function Home() {
             Developer Tools & Kits
           </h1>
           <p className="mx-auto max-w-[700px] text-sm sm:text-base text-muted-foreground md:text-lg break-words">
-            Foundational kits and patterns for building robust software systems.
-            <br />
-            Designed to survive contact with reality.
+            Foundational kits and patterns built to survive contact with
+            reality.
           </p>
         </div>
 
