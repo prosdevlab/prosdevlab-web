@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { KitCard } from "@/components/kit-card";
 import { Button } from "@/components/ui/button";
-import { kits } from "@/lib/content";
+import { type Kit, kits } from "@/lib/content";
 
 type StatusFilter = "all" | "stable" | "experimental" | "deprecated";
 
 export default function KitsPage() {
   const [filter, setFilter] = useState<StatusFilter>("all");
 
-  const sortedKits = kits.sort((a, b) => {
+  const sortedKits = kits.sort((a: Kit, b: Kit) => {
     if (a.order !== b.order) return a.order - b.order;
     return a.title.localeCompare(b.title);
   });
@@ -18,13 +18,13 @@ export default function KitsPage() {
   const filteredKits =
     filter === "all"
       ? sortedKits
-      : sortedKits.filter((kit) => kit.status === filter);
+      : sortedKits.filter((kit: Kit) => kit.status === filter);
 
   const counts = {
     all: kits.length,
-    stable: kits.filter((k) => k.status === "stable").length,
-    experimental: kits.filter((k) => k.status === "experimental").length,
-    deprecated: kits.filter((k) => k.status === "deprecated").length,
+    stable: kits.filter((k: Kit) => k.status === "stable").length,
+    experimental: kits.filter((k: Kit) => k.status === "experimental").length,
+    deprecated: kits.filter((k: Kit) => k.status === "deprecated").length,
   };
 
   return (
@@ -80,7 +80,7 @@ export default function KitsPage() {
         </div>
 
         <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-0">
-          {filteredKits.map((kit) => (
+          {filteredKits.map((kit: Kit) => (
             <KitCard key={kit.slug} kit={kit} />
           ))}
         </div>

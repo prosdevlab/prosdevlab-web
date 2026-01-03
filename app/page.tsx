@@ -4,26 +4,26 @@ import { KitCard } from "@/components/kit-card";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { kits, tools } from "@/lib/content";
+import { type Kit, kits, type Tool, tools } from "@/lib/content";
 
 export default function Home() {
-  const sortedKits = kits.sort((a, b) => {
+  const sortedKits = kits.sort((a: Kit, b: Kit) => {
     if (a.order !== b.order) return a.order - b.order;
     return a.title.localeCompare(b.title);
   });
 
-  const sortedTools = tools.sort((a, b) => {
+  const sortedTools = tools.sort((a: Tool, b: Tool) => {
     if (a.order !== b.order) return a.order - b.order;
     return a.title.localeCompare(b.title);
   });
 
-  const featuredKits = sortedKits.filter((kit) => kit.featured);
-  const featuredTools = sortedTools.filter((tool) => tool.featured);
+  const featuredKits = sortedKits.filter((kit: Kit) => kit.featured);
+  const featuredTools = sortedTools.filter((tool: Tool) => tool.featured);
   const hasFeatured = featuredKits.length > 0 || featuredTools.length > 0;
 
   // Filter out featured items from regular sections
-  const regularKits = sortedKits.filter((kit) => !kit.featured);
-  const regularTools = sortedTools.filter((tool) => !tool.featured);
+  const regularKits = sortedKits.filter((kit: Kit) => !kit.featured);
+  const regularTools = sortedTools.filter((tool: Tool) => !tool.featured);
 
   return (
     <div className="container px-4 sm:px-6 py-8 md:py-12 lg:py-16 max-w-full">
@@ -56,10 +56,10 @@ export default function Home() {
                 </div>
               </div>
               <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-0">
-                {featuredKits.map((kit) => (
+                {featuredKits.map((kit: Kit) => (
                   <KitCard key={kit.slug} kit={kit} />
                 ))}
-                {featuredTools.map((tool) => (
+                {featuredTools.map((tool: Tool) => (
                   <ToolCard key={tool.slug} tool={tool} />
                 ))}
               </div>
@@ -90,7 +90,7 @@ export default function Home() {
             )}
           </div>
           <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-0">
-            {regularKits.slice(0, 6).map((kit) => (
+            {regularKits.slice(0, 6).map((kit: Kit) => (
               <KitCard key={kit.slug} kit={kit} />
             ))}
           </div>
@@ -119,7 +119,7 @@ export default function Home() {
             )}
           </div>
           <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-0">
-            {regularTools.slice(0, 6).map((tool) => (
+            {regularTools.slice(0, 6).map((tool: Tool) => (
               <ToolCard key={tool.slug} tool={tool} />
             ))}
           </div>

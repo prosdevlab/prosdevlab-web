@@ -11,7 +11,7 @@ import { MDXContent } from "@/components/mdx-content";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { kits, tools } from "@/lib/content";
+import { type Kit, kits, type Tool, tools } from "@/lib/content";
 
 interface ToolPageProps {
   params: Promise<{
@@ -20,14 +20,14 @@ interface ToolPageProps {
 }
 
 export async function generateStaticParams() {
-  return tools.map((tool) => ({
+  return tools.map((tool: Tool) => ({
     slug: tool.slug,
   }));
 }
 
 export async function generateMetadata(props: ToolPageProps) {
   const params = await props.params;
-  const tool = tools.find((t) => t.slug === params.slug);
+  const tool = tools.find((t: Tool) => t.slug === params.slug);
 
   if (!tool) {
     return {
@@ -43,7 +43,7 @@ export async function generateMetadata(props: ToolPageProps) {
 
 export default async function ToolPage(props: ToolPageProps) {
   const params = await props.params;
-  const tool = tools.find((t) => t.slug === params.slug);
+  const tool = tools.find((t: Tool) => t.slug === params.slug);
 
   if (!tool) {
     notFound();
@@ -58,7 +58,7 @@ export default async function ToolPage(props: ToolPageProps) {
 
   // Get kit details for builtOn
   const builtOnKits = tool.builtOn
-    .map((slug: string) => kits.find((k) => k.slug === slug))
+    .map((slug: string) => kits.find((k: Kit) => k.slug === slug))
     .filter(Boolean);
 
   return (
@@ -171,7 +171,7 @@ export default async function ToolPage(props: ToolPageProps) {
                 <span>Built on</span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {builtOnKits.map((kit: any) =>
+                {builtOnKits.map((kit: Kit | undefined) =>
                   kit ? (
                     <Button key={kit.slug} asChild variant="outline" size="sm">
                       <Link href={kit.url} className="text-xs sm:text-sm">

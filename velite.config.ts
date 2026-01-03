@@ -20,12 +20,15 @@ const kits = defineCollection({
       category: s.enum(["sdk", "runtime", "testing", "docs", "ai", "other"]),
       featured: s.boolean().optional(),
       body: s.mdx(),
+      metadata: s.metadata(),
     })
-    .transform((doc: any) => ({
+    .transform((doc) => ({
       ...doc,
       url: `/kits/${doc.slug}`,
       order: (() => {
-        const match = doc.raw?.match(/^(\d+)\./);
+        const path = (doc.metadata as { path?: string }).path || "";
+        const filename = path.split("/").pop() || "";
+        const match = filename.match(/^(\d+)\./);
         return match ? parseInt(match[1], 10) : 999;
       })(),
     })),
@@ -49,13 +52,16 @@ const tools = defineCollection({
       builtOn: s.array(s.string()),
       featured: s.boolean().optional(),
       body: s.mdx(),
+      metadata: s.metadata(),
     })
-    .transform((doc: any) => {
+    .transform((doc) => {
       return {
         ...doc,
         url: `/tools/${doc.slug}`,
         order: (() => {
-          const match = doc.raw?.match(/^(\d+)\./);
+          const path = (doc.metadata as { path?: string }).path || "";
+          const filename = path.split("/").pop() || "";
+          const match = filename.match(/^(\d+)\./);
           return match ? parseInt(match[1], 10) : 999;
         })(),
       };

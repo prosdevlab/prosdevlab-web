@@ -10,7 +10,7 @@ import { MDXContent } from "@/components/mdx-content";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { kits } from "@/lib/content";
+import { type Kit, kits } from "@/lib/content";
 
 interface KitPageProps {
   params: Promise<{
@@ -19,14 +19,14 @@ interface KitPageProps {
 }
 
 export async function generateStaticParams() {
-  return kits.map((kit) => ({
+  return kits.map((kit: Kit) => ({
     slug: kit.slug,
   }));
 }
 
 export async function generateMetadata(props: KitPageProps) {
   const params = await props.params;
-  const kit = kits.find((k) => k.slug === params.slug);
+  const kit = kits.find((k: Kit) => k.slug === params.slug);
 
   if (!kit) {
     return {
@@ -42,7 +42,7 @@ export async function generateMetadata(props: KitPageProps) {
 
 export default async function KitPage(props: KitPageProps) {
   const params = await props.params;
-  const kit = kits.find((k) => k.slug === params.slug);
+  const kit = kits.find((k: Kit) => k.slug === params.slug);
 
   if (!kit) {
     notFound();

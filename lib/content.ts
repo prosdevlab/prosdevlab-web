@@ -3,3 +3,4 @@
 import { kits, tools } from "../.velite";
 
 export { kits, tools };
+export type { Kit, Tool } from "../.velite";

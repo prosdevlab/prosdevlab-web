@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";
-import { tools } from "@/lib/content";
+import { type Tool, tools } from "@/lib/content";
 
 type StatusFilter = "all" | "stable" | "experimental" | "deprecated";
 
 export default function ToolsPage() {
   const [filter, setFilter] = useState<StatusFilter>("all");
 
-  const sortedTools = tools.sort((a, b) => {
+  const sortedTools = tools.sort((a: Tool, b: Tool) => {
     if (a.order !== b.order) return a.order - b.order;
     return a.title.localeCompare(b.title);
   });
@@ -18,13 +18,13 @@ export default function ToolsPage() {
   const filteredTools =
     filter === "all"
       ? sortedTools
-      : sortedTools.filter((tool) => tool.status === filter);
+      : sortedTools.filter((tool: Tool) => tool.status === filter);
 
   const counts = {
     all: tools.length,
-    stable: tools.filter((t) => t.status === "stable").length,
-    experimental: tools.filter((t) => t.status === "experimental").length,
-    deprecated: tools.filter((t) => t.status === "deprecated").length,
+    stable: tools.filter((t: Tool) => t.status === "stable").length,
+    experimental: tools.filter((t: Tool) => t.status === "experimental").length,
+    deprecated: tools.filter((t: Tool) => t.status === "deprecated").length,
   };
 
   return (
@@ -80,7 +80,7 @@ export default function ToolsPage() {
         </div>
 
         <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-w-0">
-          {filteredTools.map((tool) => (
+          {filteredTools.map((tool: Tool) => (
             <ToolCard key={tool.slug} tool={tool} />
           ))}
         </div>

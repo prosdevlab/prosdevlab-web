@@ -108,7 +108,15 @@ const components = {
     </code>
   ),
   pre: ({ children, ...props }: React.ComponentProps<"pre">) => {
-    const language = (children as any)?.props?.["data-language"];
+    const language =
+      children &&
+      typeof children === "object" &&
+      "props" in children &&
+      typeof (children as { props?: unknown }).props === "object"
+        ? (children as { props: { "data-language"?: string } }).props[
+            "data-language"
+          ]
+        : undefined;
     return (
       <CodeBlock
         data-language={language}
