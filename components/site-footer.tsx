@@ -55,8 +55,8 @@ export function SiteFooter() {
           {/* Copyright */}
           <div className="mt-8 pt-6 border-t">
             <p className="text-xs text-muted-foreground text-center sm:text-left">
-              © {new Date().getFullYear()} prosdevlab. Built to survive contact
-              with reality.
+              © {new Date().getFullYear()} prosdevlab. For those who like to
+              build.
             </p>
           </div>
         </div>

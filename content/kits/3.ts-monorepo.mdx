@@ -1,0 +1,279 @@
+---
+title: TS Monorepo Starter
+slug: ts-monorepo
+status: stable
+summary: Clone, remove .git, and re-init for a no-fuss, production-ready blueprint for building complex TypeScript projects with modern tooling.
+tags:
+  - monorepo
+  - typescript
+  - pnpm
+  - turborepo
+  - starter-template
+lastUpdated: 2026-01-03
+reference:
+  type: repo
+  url: https://github.com/prosdevlab/ts-monorepo
+category: sdk
+featured: true
+---
+
+## Overview
+
+TypeScript Monorepo is a starter template built from production experience. It provides a foundation for complex TypeScript projects with sensible defaults and modern tooling. Clone it, remove `.git`, reinitialize, and adapt it to your needs.
+
+**Practical Note:** Use Claude or Cursor to reconfigure this template as a base for new monorepos. AI assistants can quickly adjust naming, structure, and tooling choices to match your project requirements.
+
+## What You Get
+
+A middle ground between minimal starters and opinionated frameworks:
+
+- **Configured but Flexible** - Defaults that work, change what you need
+- **PNPM + Turborepo** - Fast installs, intelligent build caching
+- **Release Management** - Changesets, conventional commits, CI/CD included
+- **Current Tooling** - Latest LTS versions, regular maintenance
+- **Framework Agnostic** - Pure TypeScript, add frameworks as needed
+
+## Stack at a Glance
+
+**Build System:**
+- **PNPM** - Fast, disk-efficient package management with workspaces
+- **Turborepo** - High-performance build system with intelligent caching
+- **tsup** - Zero-config bundling with TypeScript, ESM by default
+
+**Code Quality:**
+- **Biome** - Rust-powered linting and formatting (replaces ESLint + Prettier)
+- **TypeScript** - Strict mode, modern Node LTS settings
+- **Vitest** - Fast unit testing with native ESM support
+
+**Developer Experience:**
+- **Volta** - Automatic Node.js and PNPM version management
+- **Commitlint** - Enforce conventional commits
+- **Husky** - Git hooks for quality gates
+- **Changesets** - Semantic versioning and changelog generation
+
+**CI/CD:**
+- **GitHub Actions** - Automated testing, type checking, and npm publishing
+- **Release Automation** - Version bumps and publishing handled automatically
+
+## Quick Start
+
+```bash
+# Clone and reset git history
+git clone https://github.com/prosdevlab/ts-monorepo.git my-project
+cd my-project
+rm -rf .git
+git init
+
+# Install (Volta handles Node.js and pnpm versions automatically)
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Run tests
+pnpm test
+
+# Start developing
+pnpm -F "@monorepo/core" dev
+```
+
+## Project Structure
+
+```bash
+my-project/
+├── packages/
+│   ├── core/           Core package (ESM)
+│   ├── utils/          Shared utilities
+│   └── feature-a/      Feature-specific package
+├── .changeset/         Version management
+├── .github/workflows/  CI/CD pipelines
+├── .husky/             Git hooks
+├── biome.json          Lint + format config
+├── turbo.json          Build caching config
+└── vitest.config.ts    Test config
+```
+
+Each package has:
+- Independent `package.json` (workspace protocol for internal deps)
+- Own `tsconfig.json` extending root config
+- TypeScript source in `src/`, built output in `dist/`
+
+## Development Workflow
+
+### Adding a New Package
+
+```bash
+# Create package structure
+mkdir -p packages/my-package/src
+cd packages/my-package
+
+# Add package.json
+cat > package.json << 'EOF'
+{
+  "name": "@monorepo/my-package",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@monorepo/core": "workspace:*"
+  }
+}
+EOF
+```
+
+Update root `tsconfig.json` with path mappings, and you're ready to build.
+
+### Making Changes
+
+```bash
+# Create branch
+git checkout -b feat/my-feature
+
+# Make changes, commit with conventional format
+git commit -m "feat(core): add new API method"
+
+# Add changeset to document the change
+pnpm changeset
+# → Select packages affected
+# → Choose version bump (major/minor/patch)
+# → Write user-facing changelog
+
+# Push and PR
+git push origin feat/my-feature
+```
+
+### Building and Testing
+
+```bash
+# Build everything (with Turborepo caching)
+pnpm build
+
+# Build specific package
+pnpm -F "@monorepo/core" build
+
+# Watch mode for development
+pnpm -F "@monorepo/core" dev
+
+# Run all tests
+pnpm test
+
+# Test a specific package with watch mode
+pnpm -F "@monorepo/core" test:watch
+```
+
+## Publishing to npm
+
+Packages are `"private": true` by default to prevent accidental publishing. To publish:
+
+1. **Update `package.json`:**
+   ```json
+   {
+     "private": false,
+     "publishConfig": {
+       "access": "public"
+     }
+   }
+   ```
+
+2. **Set npm token:**
+   - Generate token at [npmjs.com](https://www.npmjs.com/settings/tokens)
+   - Add as `NPM_TOKEN` secret in GitHub repo settings
+
+3. **Merge to main:**
+   - Changesets creates a version PR automatically
+   - Merge the PR → packages publish to npm
+
+## Why These Tools?
+
+**PNPM over npm/yarn:**
+- Symlinked node_modules (saves disk space)
+- Strict dependency resolution (no phantom deps)
+- Fastest install times
+
+**Turborepo over Lerna/Nx:**
+- Remote caching (share builds across team)
+- Incremental builds (only rebuild what changed)
+- Minimal config for TypeScript monorepos
+
+**tsup over tsc/Rollup/webpack:**
+- Minimal config (sensible defaults)
+- Fast builds (esbuild under the hood)
+- ESM + types in one command
+
+**Biome over ESLint + Prettier:**
+- 25x faster (Rust implementation)
+- Single tool (no config conflicts)
+- Drop-in compatible with Prettier/ESLint rules
+
+**Changesets over semantic-release:**
+- Human-in-the-loop versioning
+- Package-specific changelogs
+- Monorepo-first design
+
+## Use Cases
+
+Works well for:
+- Multi-package libraries (shared core with optional plugins)
+- Design systems (components, utilities, themes as separate packages)
+- Microservices tooling (shared types, configs, utilities)
+- SDK ecosystems (core SDK with platform-specific adapters)
+
+Less suitable for:
+- Single-package projects (simpler setup is sufficient)
+- Framework-specific apps (Next.js, Remix have optimized starters)
+
+## Migration from Existing Project
+
+```bash
+# 1. Clone this template
+git clone https://github.com/prosdevlab/ts-monorepo.git new-monorepo
+cd new-monorepo
+rm -rf .git
+
+# 2. Copy your existing packages
+cp -r ../old-project/packages/* packages/
+
+# 3. Update package.json files to use workspace protocol
+# Example: "@my-org/core": "^1.0.0" → "@my-org/core": "workspace:*"
+
+# 4. Install and build
+pnpm install
+pnpm build
+
+# 5. Run tests to verify everything works
+pnpm test
+```
+
+## What's Included
+
+- **CI/CD workflows** - Lint, test, type check, publish automation
+- **Git hooks** - Pre-commit linting, commit message validation
+- **Version management** - Changesets for semantic versioning
+- **TypeScript** - Strict mode with project references
+- **Build system** - Turborepo caching, tsup bundling
+- **ESM modules** - Native ES modules throughout
+- **Testing** - Vitest with coverage and watch mode
+- **Documentation** - CONTRIBUTING.md and AGENTS.md for AI context
+
+## License
+
+MIT - Do whatever you want with it. No attribution required.
+
+## Resources
+
+- [GitHub Repository](https://github.com/prosdevlab/ts-monorepo)
+- [Turborepo Docs](https://turbo.build/repo/docs)
+- [PNPM Workspaces](https://pnpm.io/workspaces)
+- [Changesets Guide](https://github.com/changesets/changesets)
+
