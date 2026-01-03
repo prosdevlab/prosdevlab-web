@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
+import { CodeBlock } from "./code-block";
 
 const components = {
   a: ({ href, children, ...props }: React.ComponentProps<"a">) => {
@@ -106,14 +107,18 @@ const components = {
       {children}
     </code>
   ),
-  pre: ({ children, ...props }: React.ComponentProps<"pre">) => (
-    <pre
-      className="mb-4 mt-6 overflow-x-auto rounded-lg border border-border p-4 bg-[#22272e] dark:bg-[#22272e]"
-      {...props}
-    >
-      {children}
-    </pre>
-  ),
+  pre: ({ children, ...props }: React.ComponentProps<"pre">) => {
+    const language = (children as any)?.props?.["data-language"];
+    return (
+      <CodeBlock
+        data-language={language}
+        className="mb-4 overflow-x-auto rounded-lg border border-border p-4 bg-[#22272e] dark:bg-[#22272e]"
+        {...props}
+      >
+        {children}
+      </CodeBlock>
+    );
+  },
 };
 
 interface MDXContentProps {

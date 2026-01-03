@@ -18,9 +18,10 @@ const kits = defineCollection({
         url: s.string().url(),
       }),
       category: s.enum(["sdk", "runtime", "testing", "docs", "ai", "other"]),
+      featured: s.boolean().optional(),
       body: s.mdx(),
     })
-    .transform((doc) => ({
+    .transform((doc: any) => ({
       ...doc,
       url: `/kits/${doc.slug}`,
       order: (() => {
@@ -46,9 +47,10 @@ const tools = defineCollection({
         url: s.string().url(),
       }),
       builtOn: s.array(s.string()),
+      featured: s.boolean().optional(),
       body: s.mdx(),
     })
-    .transform((doc) => {
+    .transform((doc: any) => {
       return {
         ...doc,
         url: `/tools/${doc.slug}`,

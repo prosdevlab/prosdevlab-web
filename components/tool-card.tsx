@@ -32,10 +32,10 @@ export function ToolCard({ tool }: { tool: Tool }) {
   } as const;
 
   return (
-    <Card className="flex flex-col h-full">
+    <Card className="flex flex-col h-full min-w-0 max-w-full">
       <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-lg sm:text-xl leading-tight">
+        <div className="flex items-start justify-between gap-2 min-w-0">
+          <CardTitle className="text-lg sm:text-xl leading-tight break-words min-w-0">
             <Link href={tool.url} className="hover:underline">
               {tool.title}
             </Link>
@@ -47,20 +47,11 @@ export function ToolCard({ tool }: { tool: Tool }) {
             {tool.status}
           </Badge>
         </div>
-        <CardDescription className="line-clamp-3 text-sm text-foreground/70">
+        <CardDescription className="line-clamp-3 text-sm text-foreground/70 break-words">
           {tool.summary}
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-3">
-        <div className="flex flex-wrap gap-1.5 sm:gap-2">
-          {tool.tags.map((tag: string) => (
-            <Badge key={tag} variant="outline" className="text-xs">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
-      <CardFooter className="pt-3">
+      <CardFooter className="pt-3 mt-auto">
         <Button
           asChild
           variant="outline"
@@ -71,6 +62,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
             href={tool.reference.url}
             target="_blank"
             rel="noopener noreferrer"
+            className="flex items-center justify-center"
           >
             <ExternalLink className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
             {tool.reference.type === "repo" ? "Repository" : "Documentation"}
