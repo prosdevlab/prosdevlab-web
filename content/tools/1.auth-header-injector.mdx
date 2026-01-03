@@ -1,0 +1,135 @@
+---
+title: Auth Header Injector
+slug: auth-header-injector
+status: stable
+summary: Chrome extension for injecting authentication headers into requests. Built with SDK Kit, React 19, and Manifest V3.
+tags:
+  - chrome-extension
+  - authorization
+  - development-tools
+  - sdk-kit
+lastUpdated: 2026-01-03
+reference:
+  type: docs
+  url: https://prosdevlab.github.io/auth-header-injector/
+builtOn:
+  - sdk-kit
+---
+
+## Overview
+
+Auth Header Injector is a Chrome extension that automatically injects authentication headers into HTTP requests matching your URL patterns. Perfect for developers working with APIs that require bearer tokens or other authorization headers.
+
+Built with [SDK Kit](https://lytics.github.io/sdk-kit/) for a plugin-based architecture, React 19 for the UI, and Chrome's Manifest V3 APIs.
+
+## Features
+
+- **Pattern-based URL matching** - Use wildcards to target specific APIs
+- **Bearer token injection** - Automatically adds `Authorization: Bearer {token}` headers
+- **Side panel UI** - Modern React interface with shadcn/ui components
+- **Real-time statistics** - Track which requests are being intercepted
+- **Secure storage** - Tokens encrypted in Chrome's sync storage
+- **Rule management** - Enable/disable rules without deleting them
+- **Request tracking** - Monitor API calls with detailed stats
+
+## Installation
+
+Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/auth-hi/ddiooflfafaohgaanacpenialdamjckb):
+
+```bash
+# Or load unpacked from source
+git clone https://github.com/prosdevlab/auth-header-injector
+cd auth-header-injector
+pnpm install
+pnpm build
+# Load dist/ folder in chrome://extensions
+```
+
+## Quick Start
+
+1. **Open the side panel** - Click the extension icon or use keyboard shortcut
+2. **Add a rule** - Enter URL pattern (e.g., `*://api.example.com/*`)
+3. **Add token** - Paste your bearer token (without "Bearer " prefix)
+4. **Enable the rule** - Toggle to activate
+5. **Browse** - Headers are automatically injected into matching requests
+
+## URL Pattern Examples
+
+```
+*://api.example.com/*              # Match all API endpoints
+*://*/api/v1/*                     # Match /api/v1/ on any domain
+*example.com*                      # Match domain anywhere in URL
+*://api.staging.example.com/users  # Match specific endpoint
+```
+
+## Architecture
+
+### Tech Stack
+
+- **Manifest V3** - Latest Chrome extension API
+- **React 19** - UI framework  
+- **Shadcn UI** - Component library (Radix UI + Tailwind)
+- **SDK Kit** - Plugin architecture for service worker
+- **Vite** - Build tool with watch mode
+- **TypeScript** - Type safety
+- **Vitest** - Unit testing
+
+### Key Components
+
+- **Service Worker** - Background script with SDK Kit plugins
+  - `chromeStorage` - Persistent storage plugin
+  - `patternMatcher` - URL pattern matching
+  - `requestInterceptor` - Header injection via `declarativeNetRequest`
+- **Side Panel UI** - React app with real-time stats
+- **Request Tracker** - Monitors and counts intercepted requests
+
+### Performance
+
+- ✅ **Rule caching** - In-memory lookup (~0ms)
+- ✅ **Batched writes** - Stats written every 3s (reduces I/O by ~90%)
+- ✅ **Request debouncing** - Duplicates ignored for 1s
+- ✅ **Event-driven updates** - No polling, uses `chrome.storage.onChanged`
+
+## Security & Privacy
+
+- **Local-only storage** - All data stored on your device
+- **No external servers** - Zero network requests to third parties
+- **No analytics** - We don't collect any usage data
+- **Open source** - Full transparency for security audits
+- **Encrypted sync** - Tokens secured in Chrome's sync storage
+
+## Development
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start dev server (watch mode)
+pnpm dev
+
+# Build for production
+pnpm build
+
+# Run tests
+pnpm test
+
+# Lint & format
+pnpm lint
+pnpm format
+```
+
+## Links
+
+- [Chrome Web Store](https://chromewebstore.google.com/detail/auth-hi/ddiooflfafaohgaanacpenialdamjckb)
+- [Documentation](https://prosdevlab.github.io/auth-header-injector/)
+- [GitHub Repository](https://github.com/prosdevlab/auth-header-injector)
+- [Issue Tracker](https://github.com/prosdevlab/auth-header-injector/issues)
+
+## License
+
+MIT License - Free & Open Source
+
+---
+
+**Built for developers who live in the browser** 🚀
+

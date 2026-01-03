@@ -1,0 +1,93 @@
+---
+title: SDK Kit
+slug: sdk-kit
+status: stable
+summary: A composable, plugin-based architecture for building type-safe, tree-shakeable JavaScript SDKs by Lytics.
+tags:
+  - sdk
+  - typescript
+  - javascript
+  - plugins
+lastUpdated: 2026-01-03
+reference:
+  type: docs
+  url: https://lytics.github.io/sdk-kit/
+category: sdk
+---
+
+## Overview
+
+SDK Kit provides a blueprint for building JavaScript SDKs with a composable, plugin-based architecture. Built with TypeScript and designed for modern development workflows, it offers the flexibility of a minimal core with the power of capability-based plugins.
+
+**Latest Release:** v0.1.0 — Core framework and 6 essential plugins ready for production use.
+
+## Why SDK Kit?
+
+Building a JavaScript SDK from scratch is challenging. SDK Kit gives you a proven blueprint:
+
+- **Functional Plugins** - Pure functions with explicit dependencies, no classes or hidden state
+- **Event-Driven Coordination** - Plugins communicate through events with wildcard patterns
+- **Type-Safe** - Full TypeScript support throughout
+- **Tree-Shakeable** - Users only bundle what they use
+- **Battle-Tested Patterns** - Architecture proven in production SDKs
+
+## Installation
+
+```bash
+npm install @lytics/sdk-kit @lytics/sdk-kit-plugins
+```
+
+## Quick Start
+
+```typescript
+import { SDK } from '@lytics/sdk-kit'
+import { storagePlugin, contextPlugin, transportPlugin } from '@lytics/sdk-kit-plugins'
+
+// Build your SDK from composable plugins
+const mySDK = new SDK()
+mySDK.use(storagePlugin)
+mySDK.use(contextPlugin)
+mySDK.use(transportPlugin)
+
+await mySDK.init({
+  storage: { namespace: 'mycompany' },
+  transport: { endpoint: 'https://api.mycompany.com' }
+})
+
+// Your SDK is ready to use
+mySDK.storage.set('userId', '123')
+const context = mySDK.context.get()
+
+await mySDK.transport.send({
+  event: 'pageview',
+  context
+})
+```
+
+## Core Features
+
+**Core Framework:**
+- Plugin system with 5 capabilities (Emitter, Config, Namespace, Expose, Requirer)
+- 550+ tests with 98%+ coverage
+- Full TypeScript support
+
+**Essential Plugins:**
+- **Storage** - localStorage/sessionStorage/cookies/memory
+- **Context** - Browser/device detection
+- **Poll** - Async resource polling
+- **Queue** - Batching & persistence
+- **Transport** - Fetch/beacon/pixel/XHR
+- **Consent** - OneTrust/CookieBot integration
+
+## Use Cases
+
+- Building client libraries for APIs
+- Creating browser SDKs for products
+- Learning modern SDK architecture patterns
+- Shipping production-ready developer tools
+
+## Resources
+
+- [Official Documentation](https://lytics.github.io/sdk-kit/)
+- [GitHub Repository](https://github.com/lytics/sdk-kit)
+- MIT Licensed, built by Lytics

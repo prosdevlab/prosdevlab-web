@@ -1,0 +1,14 @@
+#!/bin/sh
+echo "🔍 Running pre-push checks..."
+echo ""
+
+echo "📝 Typechecking..."
+pnpm typecheck || exit 1
+
+echo ""
+echo "🏗️  Building..."
+pnpm build || exit 1
+
+echo ""
+echo "✅ All checks passed!"
+

@@ -1,0 +1,63 @@
+---
+title: Experience SDK
+slug: experience-sdk
+status: experimental
+summary: Framework for building rich, interactive developer experiences with declarative configuration and real-time updates.
+tags:
+  - sdk
+  - ui
+  - experience
+  - typescript
+lastUpdated: 2026-01-03
+reference:
+  type: docs
+  url: https://prosdevlab.github.io/experience-sdk/
+category: sdk
+---
+
+## Overview
+
+Experience SDK enables developers to create sophisticated user experiences with minimal boilerplate. Built on modern web standards with a focus on developer ergonomics.
+
+## Features
+
+- **Declarative API**: Define experiences with simple configuration objects
+- **Real-time Updates**: Built-in support for live data synchronization
+- **Accessibility**: WCAG-compliant components out of the box
+- **Themeable**: Comprehensive theming system with dark mode support
+
+## Installation
+
+```bash
+pnpm add @prosdevlab/experience-sdk
+```
+
+## Basic Usage
+
+```typescript
+import { createExperience } from '@prosdevlab/experience-sdk'
+
+const experience = createExperience({
+  container: '#app',
+  theme: 'auto',
+  features: ['realtime', 'analytics']
+})
+```
+
+## Components
+
+The SDK includes a comprehensive set of pre-built components:
+
+- **Navigation**: Headers, sidebars, breadcrumbs
+- **Forms**: Input fields, validation, submission handling
+- **Data Display**: Tables, lists, cards with virtualization
+- **Feedback**: Toasts, modals, loading states
+
+## Customization
+
+Every aspect of the Experience SDK is customizable through a cascading configuration system. Override defaults at the global, component, or instance level.
+
+## Performance
+
+Optimized for performance with lazy loading, code splitting, and efficient re-rendering strategies. Typical bundle size impact: ~15KB gzipped.
+
